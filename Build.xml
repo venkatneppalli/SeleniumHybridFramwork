@@ -1,0 +1,72 @@
+
+
+<!--
+	====================================================================
+		BUILD FILE Selenium AUTOMATION
+	====================================================================
+-->
+
+
+<project name="Selenium Automation">
+	<path id="classpath">
+		<fileset dir="C:\Users\venkateswararao.n\Desktop\jars\selenium-java-3.3.1" includes="**\*.jar"/>
+	</path>
+	<property name="src.dir" value="C:\Users\venkateswararao.n\Desktop\Selenium_Hybrid_Framework\src\com\selenium\"/>
+	<property name="build.dir" value="C:\Selenium_Automation"/>
+	<property name="classes.dir" value="C:\Users\venkateswararao.n\Desktop\Selenium_Hybrid_Framework\bin\com\selenium\"/>
+	<property name="jar.dir" value="C:\Selenium_Automation\jar"/>
+	
+	<property name="destclasses.dir" value="C:\Selenium_Automation\classes"/>
+	<property name="main-class" value="com.selenium.test.DriverScript"/>
+	
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+    	</target>
+    	
+    	
+    	<target name="resources">
+    		<copy file="C:\Users\venkateswararao.n\Desktop\Selenium_Hybrid_Framework\src\log4j.properties" todir="${destclasses.dir}"/>
+		<copy file="C:\Users\venkateswararao.n\Desktop\Selenium_Hybrid_Framework\src\com\selenium\config\config.properties" todir="${destclasses.dir}\com\selenium\config"/>
+		<copy file="C:\Users\venkateswararao.n\Desktop\Selenium_Hybrid_Framework\src\com\selenium\config\or.properties" todir="${destclasses.dir}\com\selenium\config"/>		
+    	</target>
+    	
+    	
+    	<target name="compile">
+   		<mkdir dir="C:\Selenium_Automation\classes"/>
+    		<javac srcdir="${src.dir}" destdir="${destclasses.dir}">
+    			<classpath>
+				<path refid="classpath"/>
+			</classpath>
+    		</javac>
+    		
+    	</target>
+
+	
+    	
+    	<target name="jar" depends="clean,compile,resources">
+    		<mkdir dir="${jar.dir}"/>
+    		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${destclasses.dir}">
+    			<manifest>
+    				<attribute name="Main-Class" value="${main-class}"/>
+    			</manifest>
+    		</jar>
+    		
+    	</target>
+    	<target name="execute" depends="jar">
+			<java classname="${main-class}" fork="true">
+				<classpath>
+					<path refid="classpath"/>
+					<path location="${jar.dir}/${ant.project.name}.jar" />					
+				</classpath>
+				
+				
+			</java>
+	</target>
+	
+	
+	<target name="run" depends="execute">
+		
+	</target>
+	
+    	
+ </project>
